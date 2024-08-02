@@ -1,0 +1,23 @@
+.navigation-bar {
+    background: #282c34;
+    padding: 1rem;
+  }
+  
+  .navigation-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .navigation-bar a {
+    color: #61dafb;
+    text-decoration: none;
+  }
+  
+  .navigation-bar button {
+    background: none;
+    border: none;
+    color: #61dafb;
+    cursor: pointer;
+  }
+  

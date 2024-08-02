@@ -1,0 +1,51 @@
+
+.weather-card {
+    background: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    max-width: 300px;
+    margin: 16px auto;
+    text-align: center;
+  }
+  
+  .weather-card-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .weather-card-body {
+    padding: 8px;
+  }
+  
+  .weather-card-temp {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  
+  .weather-card-details {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.2rem;
+  }
+  
+  .weather-detail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .weather-icon {
+    font-size: 1.5rem;
+    margin-right: 8px;
+  }
+  
+  .App.light .weather-card {
+    background: #ffffff;
+  }
+  
+  .App.dark .weather-card {
+    background: #333;
+    color: #fff;
+  }
+  

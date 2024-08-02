@@ -1,61 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import { getUserLocation } from './Services/LocationService';
-import { getCurrentWeather } from './Services/WeatherService';
-import WeatherDisplay from './Components/WeatherDisplay';
-import LocationSearch from './Components/LocationSearch';
-import WeatherAlerts from './Components/WeatherAlerts';
+import React, { useState,useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Home from './Components/Home';
 import Settings from './Components/Settings';
 import './App.css';
 
 const App = () => {
-  const [weather, setWeather] = useState(null);
-  const [alerts, setAlerts] = useState([]);
-  const [location, setLocation] = useState('');
+  const [units, setUnits] = useState('metric'); // 'metric' for Celsius, 'imperial' for Fahrenheit
+  const [forecastType, setForecastType] = useState('daily'); // 'daily' or 'hourly'
+  const [theme, setTheme] = useState('light'); // 'light' or 'dark'
 
-  useEffect(() => {
-    getUserLocation()
-      .then(position => {
-        const { latitude, longitude } = position.coords;
-        return getCurrentWeather(`${latitude},${longitude}`);
-      })
-      .then(response => {
-        setWeather(response.data);
-        setAlerts(response.data.alerts || []);
-      })
-      .catch(error => {
-        console.error('Error fetching weather data:', error);
-      });
-  }, []);
-
-  const handleSearch = (loc) => {
-    getCurrentWeather(loc)
-      .then(response => {
-        setWeather(response.data);
-        setAlerts(response.data.alerts || []);
-      })
-      .catch(error => {
-        console.error('Error fetching weather data:', error);
-      });
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Weather App</h1>
-      </header>
-      <main>
-        <LocationSearch onSearch={handleSearch} />
-        {weather ? (
-          <>
-            <WeatherDisplay weather={weather} />
-            <WeatherAlerts alerts={alerts} />
-          </>
-        ) : (
-          <p>Loading...</p>
-        )}
-        <Settings />
-      </main>
-    </div>
+    <Router>
+      <div className={`App ${theme}`}>
+        <header className="App-header">
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/settings">Settings</Link>
+          </nav>
+          <h1>Weather App</h1>
+        </header>
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home 
+                  units={units}
+                  forecastType={forecastType}
+                  onUnitChange={setUnits}
+                  onForecastTypeChange={setForecastType}
+                />
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <Settings 
+                  theme={theme}
+                  onThemeChange={handleThemeChange}
+                />
+              }
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 };
 

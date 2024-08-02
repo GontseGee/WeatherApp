@@ -1,38 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Settings = () => {
-  const [theme, setTheme] = useState('light');
-  const [units, setUnits] = useState('Celsius');
-
-  const handleThemeChange = (e) => {
-    setTheme(e.target.value);
-  };
-
-  const handleUnitsChange = (e) => {
-    setUnits(e.target.value);
+const Settings = ({ onModeChange, currentMode }) => {
+  const handleModeChange = (event) => {
+    onModeChange(event.target.checked ? 'dark' : 'light');
   };
 
   return (
-    <div>
+    <div className="Settings">
       <h2>Settings</h2>
-      <div>
-        <label>
-          Theme:
-          <select value={theme} onChange={handleThemeChange}>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          Units:
-          <select value={units} onChange={handleUnitsChange}>
-            <option value="Celsius">Celsius</option>
-            <option value="Fahrenheit">Fahrenheit</option>
-          </select>
-        </label>
-      </div>
+      <label>
+        Dark Mode
+        <input
+          type="checkbox"
+          checked={currentMode === 'dark'}
+          onChange={handleModeChange}
+        />
+      </label>
+      <br></br>
+      <label>
+      Light Mode
+        <input
+          type="checkbox"
+          checked={currentMode === 'light'}
+          onChange={handleModeChange}
+        />
+      </label>
+      
     </div>
   );
 };
